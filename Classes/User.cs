@@ -1,11 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZstdSharp.Unsafe;
 
 namespace praktika21_30_.Classes
 {
