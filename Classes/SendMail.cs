@@ -1,10 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 
 namespace praktika21_30_.Classes
 {
     public class SendMail
     {
+        readonly static string psw = "nsetyykyfykkbshu";
+
         public static void SendMessage(string Message, string To)
         {
             // Содаём smtp клиент, в качестве хоста указываем яндекс
@@ -12,7 +15,7 @@ namespace praktika21_30_.Classes
             {
                 Port = 587,
                 Credentials = new NetworkCredential("yandex@yandex.ru", "password"),
-                EnableSsl = true
+                EnableSsl = true,
             };
             // Вызываем метод send, который отправляет письмо на указанный адрес
             smtpClient.Send("landaxer@yandex.ru", To, "Проект Praktika21(30)", Message);
