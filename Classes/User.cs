@@ -28,7 +28,7 @@ namespace praktika21_30_.Classes
 
         public delegate void InCorrectLogin();
 
-        public void GetUderLogin(string Login)
+        public void GetUserLogin(string Login)
         {
             this.Id = 1;
             this.Login = String.Empty;
