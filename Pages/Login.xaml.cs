@@ -1,13 +1,9 @@
 ﻿using praktika21_30_.Classes;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 
 namespace praktika21_30_.Pages
 {
@@ -19,10 +15,12 @@ namespace praktika21_30_.Pages
         string OldLogin;
         int CountSetPassword = 2;
         bool IsCapture = false;
+        Page thisWindow;
 
         public Login()
         {
             InitializeComponent();
+            thisWindow = this;
             MainWindow.mainWindow.UserLogIn.HandlerCorrectLogin += CorrectLogin;
             MainWindow.mainWindow.UserLogIn.HandlerInCorrectLogin += InCorrectLogin;
             Capture.HandlerCorrectCapture += CorrectCapture;
@@ -32,62 +30,16 @@ namespace praktika21_30_.Pages
         {
             if (OldLogin != TbLogin.Text)
             {
-                SetNotification("Hi, " + MainWindow.mainWindow.UserLogIn.Name, Brushes.Black);
-
-                try
-                {
-                    BitmapImage biImg = new BitmapImage();
-                    MemoryStream ms = new MemoryStream(MainWindow.mainWindow.UserLogIn.Image);
-                    biImg.BeginInit();
-                    biImg.StreamSource = ms;
-                    biImg.EndInit();
-                    ImageSource imgSrc = biImg;
-                    DoubleAnimation StartAnimation = new DoubleAnimation();
-                    StartAnimation.From = 1;
-                    StartAnimation.To = 0;
-                    StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
-                    StartAnimation.Completed += delegate
-                    {
-                        IUser.Source = imgSrc;
-                        DoubleAnimation EndAnimation = new DoubleAnimation();
-                        EndAnimation.From = 0;
-                        EndAnimation.To = 1;
-                        EndAnimation.Duration = TimeSpan.FromSeconds(1.2);
-                        IUser.BeginAnimation(Image.OpacityProperty, EndAnimation);
-                    };
-                    IUser.BeginAnimation(Image.OpacityProperty, StartAnimation);
-                }
-                catch (Exception exp)
-                {
-                    Debug.WriteLine(exp.Message);
-                }
+                Functions.Animation(LNameUser, IUser);
                 OldLogin = TbLogin.Text;
             }
         }
 
         public void InCorrectLogin()
         {
-            if (LNameUser.Content != "")
-            {
-                LNameUser.Content = "";
-                DoubleAnimation StartAnimation = new DoubleAnimation();
-                StartAnimation.From = 1;
-                StartAnimation.To = 0;
-                StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
-                StartAnimation.Completed += delegate
-                {
-                    IUser.Source = new BitmapImage(new Uri("pack://application:,,,/Images/profile.png"));
-                    DoubleAnimation EndAnimation = new DoubleAnimation();
-                    EndAnimation.From = 0;
-                    EndAnimation.To = 1;
-                    EndAnimation.Duration = TimeSpan.FromSeconds(1.2);
-                    IUser.BeginAnimation(OpacityProperty, EndAnimation);
-                };
-                IUser.BeginAnimation(OpacityProperty, StartAnimation);
-            }
-
+            Functions.Animation(LNameUser, IUser, "pack://application:,,,/Images/profile.png");
             if (TbLogin.Text.Length > 0)
-                SetNotification("Login is incorrect", Brushes.Red);
+                Functions.SetNotification(LNameUser, "Login is incorrect", Brushes.Red);
         }
 
         private void SetPassword(object sender, KeyEventArgs e)
@@ -109,7 +61,7 @@ namespace praktika21_30_.Pages
                 {
                     if (CountSetPassword > 0)
                     {
-                        SetNotification($"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
+                        Functions.SetNotification(LNameUser, $"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
                         CountSetPassword--;
                     }
                     else
@@ -124,7 +76,7 @@ namespace praktika21_30_.Pages
             }
             else
             {
-                SetNotification($"Enter capture", Brushes.Red);
+                Functions.SetNotification(LNameUser, $"Enter capture", Brushes.Red);
             }
         }
 
@@ -150,14 +102,14 @@ namespace praktika21_30_.Pages
                     s_seconds = "0" + TimeIdle.Seconds;
                 Dispatcher.Invoke(() =>
                 {
-                    SetNotification($"Reauthorization avalivable in: {s_minutes}:{s_seconds}", Brushes.Red);
+                    Functions.SetNotification(LNameUser, $"Reauthorization avalivable in: {s_minutes}:{s_seconds}", Brushes.Red);
                 });
                 Thread.Sleep(1000);
             }
 
             Dispatcher.Invoke(() =>
             {
-                SetNotification("Hi, " + MainWindow.mainWindow.UserLogIn.Name, Brushes.Black);
+                Functions.SetNotification(LNameUser, "Hi, " + MainWindow.mainWindow.UserLogIn.Name, Brushes.Black);
                 TbLogin.IsEnabled = true;
                 TbPassword.IsEnabled = true;
                 Capture.IsEnabled = true;
@@ -194,12 +146,6 @@ namespace praktika21_30_.Pages
         {
             Capture.IsEnabled = false;
             IsCapture = true;
-        }
-
-        public void SetNotification(string message, SolidColorBrush color)
-        {
-            LNameUser.Content = message;
-            LNameUser.Foreground = color;
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using Aspose.Imaging;
-using System.Windows.Media.Imaging;
+using praktika21_30_.Classes;
 
 namespace praktika21_30_.Pages
 {
@@ -36,17 +34,11 @@ namespace praktika21_30_.Pages
 
         private void CorrectLogin()
         {
-            SetNotification("Login already in use", Brushes.Red);
+            Functions.SetNotification(LNameUser, "Login already in use", Brushes.Red);
             bCorrectLogin = false;
         }
 
-        private void InCorrectLogin() => SetNotification("", Brushes.Black);
-
-        public void SetNotification(string message, System.Windows.Media.Brush color)
-        {
-            LNameUser.Content = message;
-            LNameUser.Foreground = color;
-        }
+        private void InCorrectLogin() => Functions.SetNotification(LNameUser, "", Brushes.Black);
 
         private void SetLogin(object sender, KeyEventArgs e)
         {
@@ -59,15 +51,12 @@ namespace praktika21_30_.Pages
 
         public void SetLogin()
         {
-            Regex regex = new Regex(@"([a-zA-Z0-9._-]{4,}@[a-zA-Z0-9._-]{2,}\.[a-zA-Z0-9_-]{2,})");
-            bCorrectLogin = regex.IsMatch(TbLogin.Text);
-
-            if (regex.IsMatch(TbLogin.Text) == true)
+            if (RegexMath.Math(bCorrectLogin, @"([a-zA-Z0-9._-]{4,}@[a-zA-Z0-9._-]{2,}\.[a-zA-Z0-9_-]{2,})", TbLogin.Text) == true)
             {
-                SetNotification("", Brushes.Black);
+                Functions.SetNotification(LNameUser, "", Brushes.Black);
                 MainWindow.mainWindow.UserLogIn.GetUserLogin(TbLogin.Text);
             }
-            else SetNotification("Invalid login", Brushes.Red);
+            else Functions.SetNotification(LNameUser, "Invalid login", Brushes.Red);
             OnRegin();
         }
 
@@ -82,17 +71,14 @@ namespace praktika21_30_.Pages
 
         public void SetPassword()
         {
-            Regex regex = new Regex(@"(?=.*[0-9])(?=.*[!@#$%^&?*\-_=])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&?*\-_=]{10,}");
-            BCorrectPassword = regex.IsMatch(TbPassword.Password);
-
-            if (regex.IsMatch(TbPassword.Password) == true)
+            if (RegexMath.Math(BCorrectPassword, @"(?=.*[0-9])(?=.*[!@#$%^&?*\-_=])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&?*\-_=]{10,}", TbPassword.Password) == true)
             {
-                SetNotification("", Brushes.Black);
+                Functions.SetNotification(LNameUser, "", Brushes.Black);
                 if (TbConfirmPassword.Password.Length > 0)
                     ConfirmPassword(true);
                 OnRegin();
             }
-            else SetNotification("Invalid password", Brushes.Red);
+            else Functions.SetNotification(LNameUser, "Invalid password", Brushes.Red);
         }
 
         #endregion
@@ -113,11 +99,11 @@ namespace praktika21_30_.Pages
 
             if (TbConfirmPassword.Password != TbPassword.Password)
             {
-                SetNotification("Passwords do not match", Brushes.Red);
+                Functions.SetNotification(LNameUser, "Passwords do not match", Brushes.Red);
             }
             else
             {
-                SetNotification("", Brushes.Black);
+                Functions.SetNotification(LNameUser, "", Brushes.Black);
                 if (!Pass) SetPassword();
             }
         }
@@ -188,22 +174,7 @@ namespace praktika21_30_.Pages
                     rasterImage.Save("IUser.jpg");
                 }
 
-                DoubleAnimation StartAnimation = new DoubleAnimation();
-                StartAnimation.From = 1;
-                StartAnimation.To = 0;
-                StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
-                StartAnimation.Completed += delegate
-                {
-                    IUser.Source = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + @"\IUser.jpg"));
-                    DoubleAnimation EndAnimation = new DoubleAnimation();
-                    EndAnimation.From = 0;
-                    EndAnimation.To = 1;
-                    EndAnimation.Duration = TimeSpan.FromSeconds(1.2);
-                    IUser.BeginAnimation(System.Windows.Controls.Image.OpacityProperty, EndAnimation);
-                };
-
-                IUser.BeginAnimation(System.Windows.Controls.Image.OpacityProperty, StartAnimation);
-
+                Functions.Animation(LNameUser, IUser, Directory.GetCurrentDirectory() + @"\IUser.jpg");
                 BSetImages = true;
             }
             else BSetImages = false;

@@ -93,7 +93,5 @@ namespace praktika21_30_.Pages
         {
             MainWindow.mainWindow.OpenPage(new Login());
         }
-
-
     }
 }
