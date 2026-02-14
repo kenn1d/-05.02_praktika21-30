@@ -42,20 +42,25 @@ namespace praktika21_30_.Pages
 
         public void TimerSendMailCode()
         {
-            for (int i = 0; i < 60; i++)
+            try
             {
+                for (int i = 0; i < 60; i++)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        LTimer.Content = $"A second message can be sent after {(60 - i)} seconds.";
+                    });
+
+                    Thread.Sleep(1000);
+                }
                 Dispatcher.Invoke(() =>
                 {
-                    LTimer.Content = $"A second message can be sent after {(60 - i)} seconds.";
+                    BSentMessage.IsEnabled = true;
+                    LTimer.Content = "";
                 });
-
-                Thread.Sleep(1000);
             }
-            Dispatcher.Invoke(() =>
-            {
-                BSentMessage.IsEnabled = true;
-                LTimer.Content = "";
-            });
+            catch { }   
+            
         }
 
         private void SendMail(object sender, RoutedEventArgs e) =>

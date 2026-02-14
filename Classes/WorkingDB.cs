@@ -6,7 +6,7 @@ namespace praktika21_30_.Classes
 {
     public class WorkingDB
     {
-        readonly static string connection = "server=localhost;port=3306;database=regin;user=root;";
+        readonly static string connection = "server=localhost;port=3322;database=regin;user=root;";
 
         public static MySqlConnection OpenConnection()
         {

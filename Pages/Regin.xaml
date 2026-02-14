@@ -32,16 +32,16 @@
                        Content="" VerticalAlignment="Top"/>
                 <Label Content="Enter login:" Margin="10,161,10,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="TbLogin" Height="23" Margin="10,185,10,0" TextWrapping="Wrap"
-                         Text="" VerticalAlignment="Top" KeyDown="SetLogin" LostFocus="SetLogin"/>
+                         Text="mak.gam@yandex.ru" VerticalAlignment="Top" KeyDown="SetLogin" LostFocus="SetLogin"/>
                 <Label Content="Enter name:" Margin="10,213,10,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="TbName" Height="23" Margin="10,237,10,0" TextWrapping="Wrap"
-                         Text="" VerticalAlignment="Top" PreviewTextInput="SetName"/>
+                         Text="Makar" VerticalAlignment="Top" PreviewTextInput="SetName"/>
                 <Label Content="Enter password:" Margin="10,265,10,0" VerticalAlignment="Top"/>
-                <PasswordBox x:Name="TbPassword" Margin="10,289,10,0" VerticalAlignment="Top" Height="26"
+                <PasswordBox Password="1!makarMakar" x:Name="TbPassword" Margin="10,289,10,0" VerticalAlignment="Top" Height="26"
                              KeyDown="SetPassword" LostFocus="SetPassword"/>
                 <Label Content="Confirm the password:" Margin="10,320,10,0" VerticalAlignment="Top"
                        Height="26" KeyDown="ConfirmPassword" LostFocus="ConfirmPassword"/>
-                <PasswordBox x:Name="TbConfirmPassword" Margin="10,344,10,0" VerticalAlignment="Top" Height="26"
+                <PasswordBox Password="1!makarMakar" x:Name="TbConfirmPassword" Margin="10,344,10,0" VerticalAlignment="Top" Height="26"
                        KeyDown="SetPassword" LostFocus="SetPassword"/>
                 <Label Content="Back" Margin="10,373,10,0" VerticalAlignment="Top" Foreground="#ff673ab7"
                        FontSize="10" MouseDown="OpenLogin"/>
